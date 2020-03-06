@@ -30,24 +30,26 @@ def run_commands(task):
 def main():
   
     # initialize The Norn
-    nr = InitNornir()
+    #nr = InitNornir()
     # filter The Norn
-    nr = nr.filter(platform="cisco_ios")
+    #nr = nr.filter(platform="cisco_ios")
     # run The Norn run commands
-    nr.run(task=run_commands)
+    #nr.run(task=run_commands)
     
 
 
-wafflez = plt.figure(
-    FigureClass=Waffle,
-    rows=5,
-    columns=10,
-    values={'switch stacks with\ndot1x enabled': 20, 'switch stacks with\ndot1x disabled': 12},
-    legend={'loc': 'upper left', 'bbox_to_anchor': (1, 1)},
-    colors=["#008000", "#F51B00"]
-)
+    wafflez = plt.figure(
+        FigureClass=Waffle,
+        rows=5,
+        columns=10,
+        values={'switch stacks with\ndot1x enabled': 20, 'switch stacks with\ndot1x disabled': 10},
+        legend={'loc': 'lower left','bbox_to_anchor': (0, -0.3),'ncol': 2},
+        icons=['lock','lock-open'],
+        font_size=25,
+        colors=["#008000", "#F51B00"]
+    )
 
-plt.show(wafflez)
+    plt.show(wafflez)
 
 if __name__ == "__main__":
     main()
