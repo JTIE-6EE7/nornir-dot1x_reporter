@@ -35,20 +35,20 @@ def main():
     # run The Norn run commands
     #nr.run(task=run_commands)
     
-    enabled = 14
-    disabled = 154
+    enabled = 10
+    disabled = 550
 
-    rows = int((enabled + disabled) ** 0.5)
+    col = int((enabled + disabled) ** 0.5)
 
     wafflez = plt.figure(
         FigureClass=Waffle,
-        
-        rows=rows,
+        columns=30,
+        #rows=rows,
         title={
             'label': 'dot1x deployment progress',
             'loc': 'left',
             'fontdict': {
-                'fontsize': 20
+                'fontsize': 25
             }
         },
         #plot_anchor='C',
@@ -58,9 +58,8 @@ def main():
         },
         legend={'loc': 'lower left','bbox_to_anchor': (0, -0.3),'ncol': 2},
         icons=['lock','lock-open'],
-        #font_size=25,
+        font_size=10,
         colors=["#008000", "#F51B00"],
-        rounding_rule='floor'
     )
 
 
