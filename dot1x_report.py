@@ -26,8 +26,6 @@ def run_commands(task):
     print(sh_dot1x.result)
 
 
-
-
 def main():
   
     # initialize The Norn
@@ -37,25 +35,40 @@ def main():
     # run The Norn run commands
     #nr.run(task=run_commands)
     
+    enabled = 14
+    disabled = 154
 
+    rows = int((enabled + disabled) ** 0.5)
 
-    plt.figure(
+    wafflez = plt.figure(
         FigureClass=Waffle,
-        rows=5,
-        columns=10,
-        values={'switch stacks with\ndot1x enabled': 20, 'switch stacks with\ndot1x disabled': 10},
+        
+        rows=rows,
+        title={
+            'label': 'dot1x deployment progress',
+            'loc': 'left',
+            'fontdict': {
+                'fontsize': 20
+            }
+        },
+        #plot_anchor='C',
+        values={
+            'switch stacks with\ndot1x enabled': enabled, 
+            'switch stacks with\ndot1x disabled': disabled
+        },
         legend={'loc': 'lower left','bbox_to_anchor': (0, -0.3),'ncol': 2},
         icons=['lock','lock-open'],
-        font_size=25,
-        colors=["#008000", "#F51B00"]
+        #font_size=25,
+        colors=["#008000", "#F51B00"],
+        rounding_rule='floor'
     )
 
 
-    pp = PdfPages('dot1x_report.pdf')
-    plt.savefig(pp, format='pdf')
-    pp.close()
+    #pp = PdfPages('dot1x_report.pdf')
+    #plt.savefig(pp, format='pdf')
+    #pp.close()
 
-    #plt.show(wafflez)
+    plt.show(wafflez)
 
 if __name__ == "__main__":
     main()
