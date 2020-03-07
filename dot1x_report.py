@@ -4,12 +4,13 @@ This script is used to upgrade software on Cisco Catalyst 3750 and 3650 switch s
 '''
 
 import os, sys, time
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_pdf import PdfPages
+from pywaffle import Waffle
 from nornir import InitNornir
 from nornir.core.filter import F
 from nornir.plugins.functions.text import print_result
 from nornir.plugins.tasks.networking import netmiko_send_command
-import matplotlib.pyplot as plt
-from pywaffle import Waffle
 
 
 # Run show commands on each switch
@@ -38,7 +39,7 @@ def main():
     
 
 
-    wafflez = plt.figure(
+    plt.figure(
         FigureClass=Waffle,
         rows=5,
         columns=10,
@@ -49,7 +50,12 @@ def main():
         colors=["#008000", "#F51B00"]
     )
 
-    plt.show(wafflez)
+
+    pp = PdfPages('dot1x_report.pdf')
+    plt.savefig(pp, format='pdf')
+    pp.close()
+
+    #plt.show(wafflez)
 
 if __name__ == "__main__":
     main()
