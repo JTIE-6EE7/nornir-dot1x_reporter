@@ -29,16 +29,16 @@ def run_commands(task):
 def main():
   
     # initialize The Norn
-    #nr = InitNornir()
+    nr = InitNornir()
     # filter The Norn
-    #nr = nr.filter(platform="cisco_ios")
+    nr = nr.filter(platform="cisco_ios")
     # run The Norn run commands
-    #nr.run(task=run_commands)
+    nr.run(task=run_commands)
     
     enabled = 10
     disabled = 550
 
-    col = int((enabled + disabled) ** 0.5)
+    #col = int((enabled + disabled) ** 0.5)
 
     wafflez = plt.figure(
         FigureClass=Waffle,
@@ -67,7 +67,7 @@ def main():
     #plt.savefig(pp, format='pdf')
     #pp.close()
 
-    plt.show(wafflez)
+    #plt.show(wafflez)
 
 if __name__ == "__main__":
     main()
