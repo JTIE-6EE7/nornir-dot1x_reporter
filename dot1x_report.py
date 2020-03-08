@@ -3,7 +3,7 @@
 This script is to create a report on switches with dot1x enabled
 '''
 
-import os, sys, time
+import os, sys, time, json
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 from pywaffle import Waffle
@@ -11,20 +11,29 @@ from nornir import InitNornir
 from nornir.core.filter import F
 from nornir.plugins.functions.text import print_result
 from nornir.plugins.tasks.networking import netmiko_send_command
+from ttp import ttp
 
 
 # Run show commands on each switch
 def run_commands(task):
-    print(f'{task.host}: running show comands.')
+    print(f'{task.host}: checking dot1x status.')
     # run "show version" on each host
     sh_dot1x = task.run(
         task=netmiko_send_command,
         command_string="show dot1x all",
-        use_textfsm=True,
     )
 
-    print(sh_dot1x.result)
 
+        # TTP template for BGP config output
+    dot1x_ttp_template = "Sysauthcontrol              {{ status }}"
+
+    # magic TTP parsing
+    parser = ttp(data=sh_dot1x.result, template=dot1x_ttp_template)
+    parser.parse()
+    dot1x_status = json.loads(parser.result(format='json')[0])
+
+    print(dot1x_status[0]['status'])
+    
 
 def main():
   
