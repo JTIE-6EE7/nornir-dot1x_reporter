@@ -16,15 +16,17 @@ from ttp import ttp
 
 # Run show commands on each switch
 def run_commands(task):
+
+    #if not count: count = 0
+    count = 0
     print(f'{task.host}: checking dot1x status.')
-    # run "show version" on each host
+    # run "show dot1x all" on each host
     sh_dot1x = task.run(
         task=netmiko_send_command,
         command_string="show dot1x all",
     )
 
-
-        # TTP template for BGP config output
+    # TTP template for dot1x status
     dot1x_ttp_template = "Sysauthcontrol              {{ status }}"
 
     # magic TTP parsing
@@ -33,6 +35,11 @@ def run_commands(task):
     dot1x_status = json.loads(parser.result(format='json')[0])
 
     print(dot1x_status[0]['status'])
+
+    if dot1x_status[0]['status'] == 'enabled':
+        count += 1
+
+    return count
     
 
 def main():
@@ -42,7 +49,10 @@ def main():
     # filter The Norn
     nr = nr.filter(platform="cisco_ios")
     # run The Norn run commands
-    nr.run(task=run_commands)
+    count = nr.run(task=run_commands)
+    for host in count:
+        print(host[0:5])
+
     
     enabled = 10
     disabled = 550
