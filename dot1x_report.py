@@ -17,8 +17,6 @@ from ttp import ttp
 # Run show commands on each switch
 def run_commands(task):
 
-    #if not count: count = 0
-    count = 0
     print(f'{task.host}: checking dot1x status.')
     # run "show dot1x all" on each host
     sh_dot1x = task.run(
@@ -36,11 +34,8 @@ def run_commands(task):
 
     print(dot1x_status[0]['status'])
 
-    if dot1x_status[0]['status'] == 'enabled':
-        count += 1
-
-    return count
-    
+    task.host['dot1x_status'] = dot1x_status[0]['status']
+        
 
 def main():
   
@@ -49,9 +44,11 @@ def main():
     # filter The Norn
     nr = nr.filter(platform="cisco_ios")
     # run The Norn run commands
-    count = nr.run(task=run_commands)
-    for host in count:
-        print(host[0:5])
+    nr.run(task=run_commands)
+    #for host, result in nr.data.
+    #    print(host)
+    #    #print(host['dot1x_status'])
+    #    print(result[0].result)
 
     
     enabled = 10
@@ -87,6 +84,7 @@ def main():
     #pp.close()
 
     #plt.show(wafflez)
+
 
 if __name__ == "__main__":
     main()
