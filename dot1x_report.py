@@ -32,10 +32,7 @@ def get_dot1x_status(task):
     parser.parse()
     dot1x_status = json.loads(parser.result(format='json')[0])
 
-    print(dot1x_status[0]['status'])
-
-    task.host['dot1x_status'] = dot1x_status[0]['status']
-        
+    return dot1x_status[0]['status']
 
 def main():
     count = 0 
@@ -44,11 +41,11 @@ def main():
     # filter The Norn
     nr = nr.filter(platform="cisco_ios")
     # run The Norn run commands
-    nr.run(task=get_dot1x_status)
-    #for host, result in nr.data.
-    #    print(host)
-    #    #print(host['dot1x_status'])
-    #    print(result[0].result)
+    dot1x_result = nr.run(task=get_dot1x_status)
+
+    for host in dot1x_result:
+        print(host)
+        print(dot1x_result[host].result)
 
     
     enabled = 10
