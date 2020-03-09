@@ -15,7 +15,7 @@ from ttp import ttp
 
 
 # Run show commands on each switch
-def run_commands(task):
+def get_dot1x_status(task):
 
     print(f'{task.host}: checking dot1x status.')
     # run "show dot1x all" on each host
@@ -38,13 +38,13 @@ def run_commands(task):
         
 
 def main():
-  
+    count = 0 
     # initialize The Norn
     nr = InitNornir()
     # filter The Norn
     nr = nr.filter(platform="cisco_ios")
     # run The Norn run commands
-    nr.run(task=run_commands)
+    nr.run(task=get_dot1x_status)
     #for host, result in nr.data.
     #    print(host)
     #    #print(host['dot1x_status'])
