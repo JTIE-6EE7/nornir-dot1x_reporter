@@ -32,10 +32,13 @@ def get_dot1x_status(task):
     parser.parse()
     dot1x_status = json.loads(parser.result(format='json')[0])
 
+    print(dot1x_status[0]['status'])
     return dot1x_status[0]['status']
 
 def main():
-    count = 0 
+    enabled = 0 
+    disabled = 0 
+    errors = 0
     # initialize The Norn
     nr = InitNornir()
     # filter The Norn
@@ -44,10 +47,20 @@ def main():
     dot1x_result = nr.run(task=get_dot1x_status)
 
     for host in dot1x_result:
-        print(host)
-        print(dot1x_result[host].result)
+        
+        if dot1x_result[host].result == 'Enabled':
+            enabled += 1 
+        elif dot1x_result[host].result == 'Disabled':
+            disabled += 1 
+        else:
+            print(dot1x_result[host].result)
+            errors += 1
 
-    
+    print(f"Enabled: {enabled}")
+    print(f"Disabled: {disabled}")
+    print(f"Error: {errors}")
+
+
     enabled = 10
     disabled = 550
 
