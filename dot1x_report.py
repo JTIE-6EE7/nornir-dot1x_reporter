@@ -12,6 +12,7 @@ from nornir.core.filter import F
 from nornir.plugins.functions.text import print_result
 from nornir.plugins.tasks.networking import netmiko_send_command
 from ttp import ttp
+from pprint import pprint as pp
 
 
 # Run show commands on each switch
@@ -37,8 +38,11 @@ def get_dot1x_status(task):
 
 def main():
     enabled = 0 
+    enabled_hosts = []
     disabled = 0 
-    errors = 0
+    disabled_hosts = []
+    errored = 0
+    errored_hosts = []
     # initialize The Norn
     nr = InitNornir()
     # filter The Norn
@@ -50,15 +54,24 @@ def main():
         
         if dot1x_result[host].result == 'Enabled':
             enabled += 1 
+            enabled_hosts.append(host)
         elif dot1x_result[host].result == 'Disabled':
             disabled += 1 
+            disabled_hosts.append(host)
         else:
             print(dot1x_result[host].result)
-            errors += 1
+            errored += 1
+            errored_hosts.append(host)
 
     print(f"Enabled: {enabled}")
     print(f"Disabled: {disabled}")
-    print(f"Error: {errors}")
+    print(f"Error: {errored}")
+    print(f"\nFailed hosts:")
+    pp(nr.data.failed_hosts)
+    print(f"\nDisabled hosts:")
+    pp(disabled_hosts)
+    print(f"\nEnabled hosts:")
+    pp(enabled_hosts)
 
 
     enabled = 10
