@@ -11,8 +11,8 @@ from nornir import InitNornir
 from nornir.core.filter import F
 from nornir.plugins.functions.text import print_result
 from nornir.plugins.tasks.networking import netmiko_send_command
-from ttp import ttp
 from pprint import pprint as pp
+from ttp import ttp
 
 
 # Run show commands on each switch
@@ -33,7 +33,7 @@ def get_dot1x_status(task):
     parser.parse()
     dot1x_status = json.loads(parser.result(format='json')[0])
 
-    print(dot1x_status[0]['status'])
+    print(f"{task.host}: {dot1x_status[0]['status']}")
     return dot1x_status[0]['status']
 
 def main():
